@@ -1,0 +1,23 @@
+{
+  "name": "proyectofinalbackend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wz1971/proyectoFinalBackend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wz1971/proyectoFinalBackend/issues"
+  },
+  "homepage": "https://github.com/wz1971/proyectoFinalBackend#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
