@@ -1,5 +1,5 @@
-const { log } = require("console")
-const fs = require("fs")
+import { log } from "console"
+import fs from "fs"
 
 class ProductManager {
   //ToDo enhance ID management maybe using UUIDs or other random string
@@ -37,23 +37,32 @@ class ProductManager {
       this.products = await this.getProducts()
       if (this.products.some((prod) => prod.code === product.code)) {
         console.error("Error! Product code already exists.")
+        return false
       } else {
         this.currentId += 1
         this.products.push({ ...product, id: this.currentId })
         await this.writeDataFile(this.prodFile, JSON.stringify(this.products))
+        return true
       }
     } catch (err) {
       console.error("Unable to add product - ", err)
+      return false
     }
   }
 
   async deleteProduct(prodId) {
     try {
       const prodList = await this.getProducts()
+      if (!prodList.find((product) => product.id === prodId)) {
+        console.log("Product not found")
+        return false
+      }
       this.products = prodList.filter((item) => item.id !== prodId)
       await this.writeDataFile(this.prodFile, JSON.stringify(this.products))
+      return true
     } catch (err) {
       console.error("Unable to delete product -", err)
+      return false
     }
   }
 
@@ -63,18 +72,17 @@ class ProductManager {
       this.products = await this.getProducts()
       let idx = this.products.findIndex((item) => item.id === prodId)
       if (idx >= 0) {
-        this.products[idx].title = newprod.title
-        this.products[idx].description = newprod.description
-        this.products[idx].price = newprod.price
-        this.products[idx].thumbnail = newprod.thumbnail
-        this.products[idx].code = newprod.code
-        this.products[idx].stock = newprod.stock
+        const addedProd = { id: this.products[idx].id, ...newprod }
+        this.products.splice(idx, 1, addedProd)
         await this.writeDataFile(this.prodFile, JSON.stringify(this.products))
+        return true
       } else {
         console.log("Product Id not found.")
+        return false
       }
     } catch (err) {
       console.error("Unable to update product - ", err)
+      return false
     }
   }
 
@@ -96,4 +104,4 @@ class ProductManager {
   }
 }
 
-module.exports = ProductManager
+export default ProductManager
