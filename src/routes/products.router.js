@@ -11,9 +11,10 @@ productsRouter.get("/", async (req, res) => {
     if (limit < 0 || !limit) {
       let fullList = [...prodList]
       res.send(fullList)
+    } else {
+      let filteredList = prodList.slice(0, limit)
+      res.send(filteredList)
     }
-    let filteredList = prodList.slice(0, limit)
-    res.send(filteredList)
   } catch (err) {
     console.error("Unable to return values - ", err)
     res.status(500).send({ status: "Internal error.", description: "Unable to read products." })
@@ -25,7 +26,7 @@ productsRouter.get("/:pid", async (req, res) => {
     const pid = Number(req.params.pid)
     const product = await prodman.getProductById(pid)
     if (!product) {
-      res.status(404).send({ status: "404", description: "Product not found" })
+      res.status(404).send({ status: "Not found", description: "Product not found" })
     }
     res.send(product)
   } catch (err) {

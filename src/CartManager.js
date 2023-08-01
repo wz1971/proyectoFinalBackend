@@ -20,7 +20,7 @@ class CartManager {
   async getCartById(cartId) {
     try {
       this.carts = JSON.parse(await this.readDataFile(this.cartFile))
-      return this.carts.find((cart) => cart.id === cartId) || console.error("Cart not found.")
+      return this.carts.find((cart) => cart.id === cartId) || false
     } catch (err) {
       console.error("Unable to find cart in list - ", err)
     }
@@ -45,20 +45,11 @@ class CartManager {
 
   async addCart(cart) {
     try {
-      //Verificar si toda esta lógica es necesaria - creo que no
-      if (!Object.values(cart).every((val) => val)) {
-        console.error("Error! All properties must be provided.")
-      }
-      this.carts = await this.getcarts()
-      if (this.carts.some((elem) => elem.code === cart.code)) {
-        console.error("Error! cart code already exists.")
-        return false
-      } else {
-        this.currentId += 1
-        this.carts.push({ ...cart, id: this.currentId })
-        await this.writeDataFile(this.cartFile, JSON.stringify(this.carts))
-        return true
-      }
+      this.carts = await this.getCarts()
+      this.currentId += 1
+      this.carts.push({ id: this.currentId, products: [] })
+      await this.writeDataFile(this.cartFile, JSON.stringify(this.carts))
+      return true
     } catch (err) {
       console.error("Unable to add cart - ", err)
       return false
@@ -66,21 +57,22 @@ class CartManager {
   }
 
   async addProdToCart(prodId, cartId) {
-    this.carts = this.getCarts()
-    if (this.carts.size() > 0) {
-      const cart = this.carts.filter((item) => item.id === cartId)
+    console.log("Prod Id: " + prodId + "| Cart Id: " + cartId)
+    this.carts = await this.getCarts()
+    if (this.carts.length > 0) {
+      const cart = this.carts.find((item) => item.id === cartId)
       if (!cart) {
         console.log(`Cart ID ${cartId} not found.`)
         return false
       } else {
-        let product = cart.products.find((item) => item.id === prodId)
-        if (product) {
-          product.quantity += 1
-        } else {
-          cart.products.push({ product: pid, quantity: 1 })
-          this.writeDataFile(this.cartFile, JSON.stringify(this.carts))
-          return true
+        console.log(cart.products)
+        if (cart.products.length > 0) {
+          let product = cart.products.find((item) => item.id === prodId)
+          product ? (product.quantity += 1) : cart.products.push({ product: pid, quantity: 1 })
         }
+        cart.products.push({ product: prodId, quantity: 1 })
+        this.writeDataFile(this.cartFile, JSON.stringify(this.carts))
+        return true
       }
     } else {
       console.log("No carts found.")
