@@ -1,11 +1,10 @@
-import { log } from "console"
 import fs from "fs"
 
 class ProductManager {
   //ToDo enhance ID management maybe using UUIDs or other random string
   currentId = 50
 
-  //ToDo analyze if logic to initialize prod array would be necessary
+  //ToDo analyze if logic to initialize prod array and/or file would be necessary
   constructor() {
     this.prodFile = "../resources/products.json"
     this.products = []
