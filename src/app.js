@@ -5,6 +5,7 @@ import viewsRouter from "./routes/views.router.js"
 import productsRouter from "./routes/products.router.js"
 import cartsRouter from "./routes/carts.router.js"
 import { Server } from "socket.io"
+import ProductManager from "./ProductManager.js"
 
 const PORT = 8080
 const app = express()
@@ -25,10 +26,10 @@ app.use("/api/products/", productsRouter)
 app.use("/api/carts/", cartsRouter)
 app.use("/", viewsRouter)
 
-socketServer.on("connection", (socket) => {
-  console.log("Nuevo cliente conectado")
-})
+const prodman = new ProductManager()
 
-socketServer.on("listUpdate", (data) => {
-  socketServer.emit("listRefresh", data)
+socketServer.on("connection", async (socket) => {
+  console.log("Nuevo cliente conectado")
+  const initialProdList = await prodman.getProducts()
+  socket.emit("initialProducts", initialProdList)
 })

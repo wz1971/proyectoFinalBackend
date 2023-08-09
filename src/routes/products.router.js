@@ -41,7 +41,7 @@ productsRouter.delete("/:pid", async (req, res) => {
     if (prodman.deleteProduct(pid)) {
       res.send({ status: "OK", description: "Product deleted." })
       const prodlist = await prodman.getProducts()
-      socket.emit("listUpdate", prodlist)
+      //socket.emit("listUpdate", prodlist)
     }
   } catch (err) {
     console.error("Unable to delete product - ", err)
@@ -63,7 +63,7 @@ productsRouter.post("/", async (req, res) => {
     } else {
       res.send({ status: "OK", description: "Product added." })
       const prodlist = await prodman.getProducts()
-      socket.emit("listUpdate", prodlist)
+      //socket.emit("listUpdate", prodlist)
     }
   } catch (err) {
     console.log("Unable to add product - ", err)
@@ -86,7 +86,7 @@ productsRouter.put("/:pid", async (req, res) => {
     } else {
       res.send({ status: "OK", description: "Product updated." })
       const prodlist = await prodman.getProducts()
-      socket.emit("listUpdate", prodlist)
+      //socket.emit("listUpdate", prodlist)
     }
   } catch (err) {
     console.log("Unable to add product - ", err)

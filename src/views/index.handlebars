@@ -2,18 +2,20 @@
   <div class="row">
     <div class="col">
       <h1>Product List</h1>
-      <ul>
-        {{#each this}}
-          <li>
-            <h5>
-              {{this.title}}
-            </h5>
-            <p>
-              {{this.description}}
-            </p>
-          </li>
-        {{/each}}
-      </ul>
+      <div style="color: blue; background-color:aqua;">
+        <ul>
+          {{#each this}}
+            <li>
+              <h5>
+                {{this.title}}
+              </h5>
+              <p>
+                {{this.description}}
+              </p>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
     </div>
   </div>
 </div>
