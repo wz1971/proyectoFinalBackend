@@ -30,6 +30,14 @@ const prodman = new ProductManager()
 
 socketServer.on("connection", async (socket) => {
   console.log("Nuevo cliente conectado")
-  const initialProdList = await prodman.getProducts()
-  socket.emit("initialProducts", initialProdList)
+  const prodList = await prodman.getProducts()
+  socket.emit("renderProducts", prodList)
 })
+
+socketServer.on("prodChange", async (socket) => {
+  console.log("Lista de productos actualizada")
+  const prodList = await prodman.getProducts()
+  socket.broadcast.emit("renderProducts", prodList)
+})
+
+export { socketServer }

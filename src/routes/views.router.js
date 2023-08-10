@@ -3,7 +3,6 @@ import ProductManager from "../ProductManager.js"
 
 const viewsRouter = express.Router()
 const prodman = new ProductManager()
-//const socket = io()
 
 viewsRouter.get("/", async (req, res) => {
   try {
@@ -16,7 +15,6 @@ viewsRouter.get("/", async (req, res) => {
 })
 
 viewsRouter.get("/realTimeProducts", async (req, res) => {
-  //  socket.on("listRefresh", data)
   res.render("realTimeProducts", {})
 })
 

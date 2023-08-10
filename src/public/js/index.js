@@ -1,6 +1,6 @@
 const socket = io()
 
-socket.on("initialProducts", (prodlist) => {
+socket.on("renderProducts", (prodlist) => {
   console.log("Nuevo mensaje del server")
   const listContainer = document.getElementById("prodlist")
   listContainer.innerHTML = ""

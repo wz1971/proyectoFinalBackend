@@ -1,4 +1,5 @@
 import { Router } from "express"
+import { socketServer } from "../app.js"
 import ProductManager from "../ProductManager.js"
 
 const productsRouter = Router()
@@ -40,8 +41,7 @@ productsRouter.delete("/:pid", async (req, res) => {
     const pid = Number(req.params.pid)
     if (prodman.deleteProduct(pid)) {
       res.send({ status: "OK", description: "Product deleted." })
-      const prodlist = await prodman.getProducts()
-      //socket.emit("listUpdate", prodlist)
+      socketServer.emit("productChange")
     }
   } catch (err) {
     console.error("Unable to delete product - ", err)
@@ -62,8 +62,7 @@ productsRouter.post("/", async (req, res) => {
       res.status(403).send({ status: "Forbidden", description: `Product code ${product.code} already exists.` })
     } else {
       res.send({ status: "OK", description: "Product added." })
-      const prodlist = await prodman.getProducts()
-      //socket.emit("listUpdate", prodlist)
+      socketServer.emit("productChange")
     }
   } catch (err) {
     console.log("Unable to add product - ", err)
@@ -85,8 +84,7 @@ productsRouter.put("/:pid", async (req, res) => {
       res.status(403).send({ status: "Forbidden", description: `Product id ${pid} does not exist.` })
     } else {
       res.send({ status: "OK", description: "Product updated." })
-      const prodlist = await prodman.getProducts()
-      //socket.emit("listUpdate", prodlist)
+      socketServer.emit("prodChange")
     }
   } catch (err) {
     console.log("Unable to add product - ", err)
