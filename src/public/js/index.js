@@ -1,7 +1,11 @@
 const socket = io()
 
+socket.on("connect", () => {
+  console.log("Connected as: " + socket.id)
+})
+
 socket.on("renderProducts", (prodlist) => {
-  console.log("Nuevo mensaje del server")
+  console.log("Update received.")
   const listContainer = document.getElementById("prodlist")
   listContainer.innerHTML = ""
   prodlist.forEach((element) => {

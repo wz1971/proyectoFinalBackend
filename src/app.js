@@ -5,14 +5,20 @@ import viewsRouter from "./routes/views.router.js"
 import productsRouter from "./routes/products.router.js"
 import cartsRouter from "./routes/carts.router.js"
 import { Server } from "socket.io"
-import ProductManager from "./ProductManager.js"
+import ProductManager from "./dao/ProductManager.js"
+import ChatManager from "./dao/ChatManager.js"
+import mongoose from "mongoose"
 
 const PORT = 8080
 const app = express()
+
 const httpServer = app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}.`)
 })
-const socketServer = new Server(httpServer)
+
+const io = new Server(httpServer)
+const prodman = new ProductManager()
+const chatman = new ChatManager()
 
 app.engine("handlebars", handlebars.engine())
 app.set("views", __dirname + "/views")
@@ -26,18 +32,18 @@ app.use("/api/products/", productsRouter)
 app.use("/api/carts/", cartsRouter)
 app.use("/", viewsRouter)
 
-const prodman = new ProductManager()
+mongoose.connect(
+  "mongodb+srv://coder_backend:xJvndIogNKToswVD@coderbackend.q5qvbhl.mongodb.net/ecommerce?retryWrites=true&w=majority"
+)
 
-socketServer.on("connection", async (socket) => {
-  console.log("Nuevo cliente conectado")
+io.on("connection", async (socket) => {
+  console.log("Client Id: " + socket.id + " connected ")
   const prodList = await prodman.getProducts()
   socket.emit("renderProducts", prodList)
-})
 
-socketServer.on("prodChange", async (socket) => {
-  console.log("Lista de productos actualizada")
-  const prodList = await prodman.getProducts()
-  socket.broadcast.emit("renderProducts", prodList)
+  socket.on("prodChange", async () => {
+    console.log("Update received")
+    const prodList = await prodman.getProducts()
+    socket.broadcast.emit("renderProducts", prodList)
+  })
 })
-
-export { socketServer }

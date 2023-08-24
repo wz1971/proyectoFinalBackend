@@ -1,9 +1,15 @@
 import { Router } from "express"
-import { socketServer } from "../app.js"
-import ProductManager from "../ProductManager.js"
+import ProductManager from "../dao/ProductManager.js"
+import { io } from "socket.io-client"
 
 const productsRouter = Router()
 const prodman = new ProductManager()
+const socket = io("http://localhost:8080/")
+socket.on("connect", () => {
+  console.log("Connected as: " + socket.id)
+})
+
+socket.emit("testMsg", "Hello from client")
 
 productsRouter.get("/", async (req, res) => {
   try {
@@ -40,8 +46,8 @@ productsRouter.delete("/:pid", async (req, res) => {
   try {
     const pid = Number(req.params.pid)
     if (prodman.deleteProduct(pid)) {
+      socket.emit("prodChange")
       res.send({ status: "OK", description: "Product deleted." })
-      socketServer.emit("productChange")
     }
   } catch (err) {
     console.error("Unable to delete product - ", err)
@@ -61,8 +67,8 @@ productsRouter.post("/", async (req, res) => {
     } else if (!(await prodman.addProduct(product))) {
       res.status(403).send({ status: "Forbidden", description: `Product code ${product.code} already exists.` })
     } else {
+      socket.emit("prodChange")
       res.send({ status: "OK", description: "Product added." })
-      socketServer.emit("productChange")
     }
   } catch (err) {
     console.log("Unable to add product - ", err)
@@ -83,8 +89,8 @@ productsRouter.put("/:pid", async (req, res) => {
     } else if (!(await prodman.updateProduct(pid, product))) {
       res.status(403).send({ status: "Forbidden", description: `Product id ${pid} does not exist.` })
     } else {
+      socket.emit("prodChange")
       res.send({ status: "OK", description: "Product updated." })
-      socketServer.emit("prodChange")
     }
   } catch (err) {
     console.log("Unable to add product - ", err)
