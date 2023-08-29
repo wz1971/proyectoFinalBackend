@@ -6,10 +6,8 @@ const productsRouter = Router()
 const prodman = new ProductManager()
 const socket = io("http://localhost:8080/")
 socket.on("connect", () => {
-  console.log("Connected as: " + socket.id)
+  console.log("Connected to API as: " + socket.id)
 })
-
-socket.emit("testMsg", "Hello from client")
 
 productsRouter.get("/", async (req, res) => {
   try {

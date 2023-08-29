@@ -32,6 +32,7 @@ cartsRouter.get("/:cid", async (req, res) => {
 
 cartsRouter.post("/:cid/product/:pid", async (req, res) => {
   try {
+    console.log("Received request for adding prod to cart")
     const cid = Number(req.params.cid)
     const pid = Number(req.params.pid)
     const cart = await cartman.getCartById(cid)
