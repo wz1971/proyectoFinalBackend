@@ -48,4 +48,63 @@ cartsRouter.post("/:cid/product/:pid", async (req, res) => {
   }
 })
 
+//ToDo
+cartsRouter.delete("/:cid/product/:pid", async (req, res) => {
+  try {
+    const cid = Number(req.params.cid)
+    const pid = Number(req.params.pid)
+    const cart = await cartman.getCartById(cid)
+
+    if (cart) {
+      if (await cartman.delProdFromCart(pid, cid)) {
+        res.send({ status: "OK", description: "Product successfully deleted from cart." })
+      } else {
+        res.status(500).send({ status: "Internal error", description: "Unable to delete product from cart" })
+      }
+    }
+  } catch (err) {
+    console.error("Error deleting product from cart - ", err)
+  }
+})
+
+//ToDo
+cartsRouter.delete("/:cid", async (req, res) => {
+  try {
+    const cid = Number(req.params.cid)
+    const cart = await cartman.getCartById(cid)
+    if (cart) {
+      if (await cartman.emptyCart(cid)) {
+        res.send({ status: "OK", description: "Cart successfully emptied." })
+      } else {
+        res.status(500).send({ status: "Internal error", description: "Unable to empty cart." })
+      }
+    }
+  } catch (err) {
+    console.error("Error deleting products from cart - ", err)
+  }
+})
+
+//ToDo
+cartsRouter.put("/:cid", async (req, res) => {})
+
+//ToDo
+cartsRouter.put("/:cid/:product/:pid", async (req, res) => {
+  try {
+    const cid = Number(req.params.cid)
+    const pid = Number(req.params.pid)
+    const qty = Number(req.body)
+    const cart = await cartman.getCartById(cid)
+
+    if (cart) {
+      if (await cartman.addProdToCart(pid, cid, qty)) {
+        res.send({ status: "OK", description: "Product successfully added to cart." })
+      } else {
+        res.status(500).send({ status: "Internal error", description: "Unable to add product to cart" })
+      }
+    }
+  } catch (err) {
+    console.error("Error adding product to cart - ", err)
+  }
+})
+
 export default cartsRouter

@@ -6,10 +6,29 @@ class ProductManager {
 
   constructor() {}
 
-  async getProducts() {
+  async getProducts(params) {
     try {
-      const prodList = await prodModel.find().lean()
-      return prodList
+      let { limit, page, query, sort } = params
+      limit ? limit : 10
+      page ? page : 1
+      query ? query : {}
+      sort = sort ? (sort == "asc" ? 1 : -1) : 0
+      const prodList = await prodModel.paginate(query, { limit: limit, page: page, sort: { price: sort } })
+      const response = {
+        status: prodList.docs ? "sucess" : "error",
+        payload: prodList.docs,
+        prevPage: prodList.prevPage,
+        nextPage: prodList.nextPage,
+        hasPrevPage: prodList.hasPrevPage,
+        hasNextPage: prodList.hasNextPage,
+        prevlink: prodList.hasPrevPage
+          ? "http://localhost:8080/api/products?limit=" + limit + "&page=" + prodList.prevPage
+          : null,
+        nextLink: prodList.hasNextPage
+          ? "http://localhost:8080/api/products?limit=" + limit + "&page=" + prodList.nextPage
+          : null,
+      }
+      return response
     } catch (err) {
       console.error("Error fetching product list - ", err)
     }

@@ -13,15 +13,9 @@ socket.emit("testMsg", "Hello from client")
 
 productsRouter.get("/", async (req, res) => {
   try {
-    const limit = Number(req.query.limit)
-    const prodList = await prodman.getProducts()
-    if (limit < 0 || !limit) {
-      let fullList = [...prodList]
-      res.send(fullList)
-    } else {
-      let filteredList = prodList.slice(0, limit)
-      res.send(filteredList)
-    }
+    console.log(req.query)
+    const prodList = await prodman.getProducts(req.query)
+    res.send(prodList)
   } catch (err) {
     console.error("Unable to return values - ", err)
     res.status(500).send({ status: "Internal error.", description: "Unable to read products." })

@@ -38,12 +38,12 @@ mongoose.connect(
 
 io.on("connection", async (socket) => {
   console.log("Client Id: " + socket.id + " connected ")
-  const prodList = await prodman.getProducts()
+  const prodList = await prodman.getProducts({})
   socket.emit("renderProducts", prodList)
 
   socket.on("prodChange", async () => {
     console.log("Update received")
-    const prodList = await prodman.getProducts()
+    const prodList = await prodman.getProducts({})
     socket.broadcast.emit("renderProducts", prodList)
   })
 })
