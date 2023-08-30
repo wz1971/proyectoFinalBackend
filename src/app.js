@@ -46,4 +46,16 @@ io.on("connection", async (socket) => {
     const prodList = await prodman.getProducts({})
     socket.broadcast.emit("renderProducts", prodList)
   })
+
+  socket.on("newMsg", async (data) => {
+    await chatman.createMessage(data)
+    const messages = await chatman.getMessages()
+    socket.emit("messages", messages)
+  })
+
+  socket.on("delAllMsgs", async () => {
+    await chatman.deleteAllMessages()
+    const messages = []
+    socket.emit("messages", messages)
+  })
 })

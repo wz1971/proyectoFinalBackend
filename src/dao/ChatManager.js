@@ -8,6 +8,10 @@ class ChatManager {
   async createMessage(message) {
     return await msgModel.create(message)
   }
+
+  async deleteAllMessages() {
+    return await msgModel.deleteMany({})
+  }
 }
 
 export default ChatManager
