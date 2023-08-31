@@ -8,7 +8,7 @@ viewsRouter.get("/", async (req, res) => {
   try {
     const prodList = await prodman.getProducts(req.query)
     const products = prodList.payload
-    res.render("products", products)
+    res.render("products", { products: products })
   } catch (err) {
     console.error("Unable to return values - ", err)
     res.status(500).send({ status: "Internal error.", description: "Unable to read products." })
