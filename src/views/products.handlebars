@@ -1,7 +1,7 @@
-<div class="container">
-  <h2 class="p-3">Movie Catalog</h2>
+<div class="container bg-secondary-subtle">
+  <h2 class="py-3 px-5 text-primary-emphasis">Movie Catalog</h2>
   {{#each products}}
-    <div class="card mb-3" style="max-width: 600px;">
+    <div class="card mb-3 text-primary-emphasis bg-primary-subtle" style="max-width: 600px;">
       <div class="row g-0">
         <div class="col-md-4 p-3">
           <img src={{this.thumbnail}} class="img-fluid rounded m3" alt="..." />
@@ -18,5 +18,4 @@
   {{/each}}
 </div>
 
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/realtime.js"></script>
+<script src="js/products.js"></script>

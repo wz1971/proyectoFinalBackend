@@ -1,18 +1,14 @@
 import { prodModel } from "./models/product.model.js"
 
 class ProductManager {
-  //ToDo enhance ID management maybe using UUIDs or other random string or remove this linear ID and use Mongo's Ids
-  currentId = 50
-
   constructor() {}
 
   async getProducts(params) {
     try {
-      let { limit, page, query, sort } = params
-      limit ? limit : 10
-      page ? page : 1
-      query ? query : {}
-      sort = sort ? (sort == "asc" ? 1 : -1) : 0
+      const limit = params.limit || 10
+      const page = params.page || 1
+      const query = (params.query && JSON.parse(params.query)) || {}
+      const sort = params.sort == "asc" ? 1 : -1 || 0
       const prodList = await prodModel.paginate(query, { limit: limit, page: page, sort: { price: sort } })
       const response = {
         status: prodList.docs ? "sucess" : "error",
@@ -36,7 +32,7 @@ class ProductManager {
 
   async getProductById(prodId) {
     try {
-      const product = await prodModel.find({ id: prodId }).lean()
+      const product = await prodModel.find({ _id: prodId }).lean()
       return product
     } catch (err) {
       console.error("Unable to find product in list - ", err)
@@ -53,9 +49,7 @@ class ProductManager {
         console.error("Error! Product code already exists.")
         return false
       } else {
-        this.currentId += 1
-        const newProduct = { ...product, id: this.currentId }
-        return await prodModel.create(newProduct)
+        return await prodModel.create(product)
       }
     } catch (err) {
       console.error("Unable to add product - ", err)
@@ -65,7 +59,7 @@ class ProductManager {
 
   async deleteProduct(prodId) {
     try {
-      return await prodModel.deleteOne({ id: prodId })
+      return await prodModel.deleteOne({ _id: prodId })
     } catch (err) {
       console.error("Unable to delete product -", err)
       return false
@@ -74,7 +68,7 @@ class ProductManager {
 
   async updateProduct(prodId, newprod) {
     try {
-      return await prodModel.updateOne({ id: prodId }, newprod)
+      return await prodModel.updateOne({ _id: prodId }, newprod)
     } catch (err) {
       console.error("Unable to update product - ", err)
       return false

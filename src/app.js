@@ -1,6 +1,8 @@
 import express from "express"
-import handlebars from "express-handlebars"
 import __dirname from "./utils.js"
+import expressHandlebars from "express-handlebars"
+import Handlebars from "handlebars"
+import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access"
 import viewsRouter from "./routes/views.router.js"
 import productsRouter from "./routes/products.router.js"
 import cartsRouter from "./routes/carts.router.js"
@@ -20,7 +22,13 @@ const io = new Server(httpServer)
 const prodman = new ProductManager()
 const chatman = new ChatManager()
 
-app.engine("handlebars", handlebars.engine())
+app.engine(
+  "handlebars",
+  expressHandlebars.engine({
+    handlebars: allowInsecurePrototypeAccess(Handlebars),
+  })
+)
+
 app.set("views", __dirname + "/views")
 app.set("view engine", "handlebars")
 
@@ -37,12 +45,11 @@ mongoose.connect(
 )
 
 io.on("connection", async (socket) => {
-  console.log("Client Id: " + socket.id + " connected ")
+  console.log("Client connected")
   const prodList = await prodman.getProducts({})
   socket.emit("renderProducts", prodList)
 
   socket.on("prodChange", async () => {
-    console.log("Update received")
     const prodList = await prodman.getProducts({})
     socket.broadcast.emit("renderProducts", prodList)
   })

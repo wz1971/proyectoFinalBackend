@@ -18,7 +18,7 @@ cartsRouter.post("/", async (req, res) => {
 
 cartsRouter.get("/:cid", async (req, res) => {
   try {
-    const cid = Number(req.params.cid)
+    const cid = req.params.cid
     const cart = await cartman.getCartById(cid)
     if (cart) {
       res.send({ products: cart.products })
@@ -32,8 +32,8 @@ cartsRouter.get("/:cid", async (req, res) => {
 
 cartsRouter.post("/:cid/product/:pid", async (req, res) => {
   try {
-    const cid = Number(req.params.cid)
-    const pid = Number(req.params.pid)
+    const cid = req.params.cid
+    const pid = req.params.pid
     const cart = await cartman.getCartById(cid)
 
     if (cart) {
@@ -51,8 +51,8 @@ cartsRouter.post("/:cid/product/:pid", async (req, res) => {
 //ToDo
 cartsRouter.delete("/:cid/product/:pid", async (req, res) => {
   try {
-    const cid = Number(req.params.cid)
-    const pid = Number(req.params.pid)
+    const cid = req.params.cid
+    const pid = req.params.pid
     const cart = await cartman.getCartById(cid)
 
     if (cart) {
@@ -70,7 +70,7 @@ cartsRouter.delete("/:cid/product/:pid", async (req, res) => {
 //ToDo
 cartsRouter.delete("/:cid", async (req, res) => {
   try {
-    const cid = Number(req.params.cid)
+    const cid = req.params.cid
     const cart = await cartman.getCartById(cid)
     if (cart) {
       if (await cartman.emptyCart(cid)) {
@@ -90,9 +90,9 @@ cartsRouter.put("/:cid", async (req, res) => {})
 //ToDo
 cartsRouter.put("/:cid/:product/:pid", async (req, res) => {
   try {
-    const cid = Number(req.params.cid)
-    const pid = Number(req.params.pid)
-    const qty = Number(req.body)
+    const cid = req.params.cid
+    const pid = req.params.pid
+    const qty = req.body
     const cart = await cartman.getCartById(cid)
 
     if (cart) {
