@@ -5,16 +5,16 @@
 ### Detalle
 
 - Método GET en api/products, en / y en /products recibe y procesa:
-  - limit (default 10)
-  - sort (asc y desc - default asc)
-  - page (default 1)
-  - query (formato {"campo":"valor"})
-  - los items de query params se pueden combinar
-- GET Devuelve formato requerido (status, payload, etc.)
-- Método DELETE api/carts/:cid/products/:pid --> Pendiente
-- Método PUT api/carts/:cid --> Pendiente
-- Método PUT api/carts/:cid/products/:pid --> Pendiente
-- Método DELETE api/carts/:cid elimina todos los productos
-- Uso de Populate --> Pendiente
-- Vista /products --> Sólo falta darle funcionalidad al botón de Add To Cart
-- Vista /carts/:cid --> Pendiente
+  - limit (default 10) **OK**
+  - sort (asc y desc - default asc) **OK**
+  - page (default 1) **OK**
+  - query (formato {"campo":"valor"}) **OK**
+  - los items de query params se pueden combinar **OK**
+- GET Devuelve formato requerido (status, payload, etc.) **OK**
+- Método DELETE api/carts/:cid/products/:pid **OK**
+- Método PUT api/carts/:cid --> *Pendiente*
+- Método PUT api/carts/:cid/products/:pid **OK**
+- Método DELETE api/carts/:cid elimina todos los productos **OK**
+- Uso de Populate **OK**
+- Vista /products --> *Sólo falta darle funcionalidad al botón de Add To Cart*
+- Vista /carts/:cid --> *Pendiente*

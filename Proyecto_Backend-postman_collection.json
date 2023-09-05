@@ -1,0 +1,267 @@
+{
+	"info": {
+		"_postman_id": "a07a0493-1f5f-4a68-b47a-cc2944378011",
+		"name": "Proyecto Backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8384487"
+	},
+	"item": [
+		{
+			"name": "GET products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products?limit=10&sort=asc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "sort",
+							"value": "asc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET products/id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products/64f102c1881d132f29819d67",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"64f102c1881d132f29819d67"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET products?limit",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products?limit=7&query={\"category\":\"Drama\"}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "7"
+						},
+						{
+							"key": "query",
+							"value": "{\"category\":\"Drama\"}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE carts/:cid",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/carts/64f4932a4608f2379d783e35",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"carts",
+						"64f4932a4608f2379d783e35"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"5th TEST PRODUCT\",\n  \"description\": \"Test Product 5\",\n  \"code\": \"WXYZ33\",\n  \"price\": 1260,\n  \"status\": true,\n  \"stock\": 70,\n  \"category\": \"SOMECATEGORY\",\n  \"thumbnail\": \"img23\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT products/:pid",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"_id\": \"64f102c1881d132f29819d67\",\n  \"title\": \"Chain Reaction\",\n  \"description\": \"Praesent lectus.\",\n  \"category\": \"Action|Adventure|Thriller\",\n  \"price\": 11089,\n  \"thumbnail\": \"http://dummyimage.com/100x100.png/cc0000/ffffff\",\n  \"code\": \"ccz221\",\n  \"stock\": 20\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/products/64f102c1881d132f29819d67",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"64f102c1881d132f29819d67"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST cart /",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/carts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"carts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET carts/:cid",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/carts/64f479d49b81a88b4bba8bee",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"carts",
+						"64f479d49b81a88b4bba8bee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT carts/:cid  (Work In Progress)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"product\": \"64f102c1881d132f29819d67\",\n    \"quantity\": 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/carts/64f4932a4608f2379d783e35/product/64f102c1881d132f29819d67",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"carts",
+						"64f4932a4608f2379d783e35",
+						"product",
+						"64f102c1881d132f29819d67"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT cart/:cid/product/:pid",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/carts/64f4932a4608f2379d783e35/product/64f102c1881d132f29819d67",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"carts",
+						"64f4932a4608f2379d783e35",
+						"product",
+						"64f102c1881d132f29819d67"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
