@@ -24,7 +24,7 @@ class CartManager {
     try {
       const cart = await cartModel.findOne({ _id: cartId }).lean()
       if (cart.products.length > 0) {
-        let product = cart.products.find((item) => item.id === prodId)
+        let product = cart.products.find((item) => item.product === prodId)
         product
           ? qty
             ? (product.quantity += qty)
