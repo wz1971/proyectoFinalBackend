@@ -68,7 +68,7 @@ productsRouter.post("/", async (req, res) => {
 
 productsRouter.put("/:pid", async (req, res) => {
   try {
-    const propList = ["title", "description", "code", "price", "status", "stock", "category", "thumbnails"]
+    const propList = ["title", "description", "category", "price", "stock", "code", "thumbnail"]
     const product = req.body
     const pid = req.params.pid
     const isValid = propList.every((prop) => {

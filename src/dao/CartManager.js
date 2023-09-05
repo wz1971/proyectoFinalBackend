@@ -22,16 +22,25 @@ class CartManager {
 
   async addProdToCart(prodId, cartId, qty) {
     try {
-      const cart = await cartModel.findOne({ _id: cartId }).lean()
+      const cart = await cartModel.findOne({ _id: cartId }) //.lean()
       if (cart.products.length > 0) {
-        let product = cart.products.find((item) => item.product === prodId)
-        product
-          ? qty
-            ? (product.quantity += qty)
-            : (product.quantity += 1)
-          : cart.products.push({ product: prodId, quantity: qty ? qty : 1 })
+        let prod = cart.products.find((item) => item._id.toString() === prodId)
+        if (prod) {
+          qty ? (prod.quantity += qty) : (prod.quantity += 1)
+        } else {
+          const newProd = {
+            _id: prodId,
+            product: prodId,
+            quantity: qty ? qty : 1,
+          }
+          cart.products.push(newProd)
+        }
       } else {
-        const newProd = { product: prodId, quantity: qty ? qty : 1 }
+        const newProd = {
+          _id: prodId,
+          product: prodId,
+          quantity: qty ? qty : 1,
+        }
         cart.products.push(newProd)
       }
       return await cartModel.updateOne({ _id: cartId }, cart)
@@ -55,10 +64,31 @@ class CartManager {
   async emptyCart(cartId) {
     try {
       const cart = await cartModel.findOne({ _id: cartId }).lean()
-      let newProdList = []
-      return await cartModel.updateOne({ _id: cartId }, { products: newProdList })
+      if (cart) {
+        let newProdList = []
+        return await cartModel.updateOne({ _id: cartId }, { products: newProdList })
+      } else {
+        return false
+      }
     } catch (error) {
       console.error("Unable to delete products from cart - ", err)
+    }
+  }
+
+  async bulkAddToCart(cartId, prodArray) {
+    try {
+      const cart = await cartModel.findOne({ _id: cartId }).lean()
+      if (cart) {
+        await prodArray.forEach((element) => {
+          this.addProdToCart(element.id, cartId, element.quantity)
+        })
+        return true
+        //return await cartModel.updateOne({ _id: cartId }, { products: newProdList })
+      } else {
+        return false
+      }
+    } catch (err) {
+      console.error("Unable to add products to cart - ", err)
     }
   }
 }
