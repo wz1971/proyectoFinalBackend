@@ -81,25 +81,6 @@ cartsRouter.delete("/:cid", async (req, res) => {
   }
 })
 
-//ToDo
-cartsRouter.put("/:cid", async (req, res) => {
-  try {
-    const cid = req.params.cid
-    const prods = req.body
-    const cart = await cartman.getCartById(cid)
-    if (cart) {
-      console.log("Cart Found")
-      if (await cartman.bulkAddToCart(cid, prods)) {
-        res.send({ status: "OK", description: "Product list successfully added to cart." })
-      } else {
-        res.status(500).send({ status: "Internal error", description: "Unable to add product list to cart" })
-      }
-    }
-  } catch (err) {
-    console.error("Error adding product to cart - ", err)
-  }
-})
-
 cartsRouter.put("/:cid/:product/:pid", async (req, res) => {
   try {
     const cid = req.params.cid
@@ -111,6 +92,23 @@ cartsRouter.put("/:cid/:product/:pid", async (req, res) => {
         res.send({ status: "OK", description: "Product successfully added to cart." })
       } else {
         res.status(500).send({ status: "Internal error", description: "Unable to add product to cart" })
+      }
+    }
+  } catch (err) {
+    console.error("Error adding product to cart - ", err)
+  }
+})
+
+cartsRouter.put("/:cid", async (req, res) => {
+  try {
+    const cid = req.params.cid
+    const prods = req.body
+    const cart = await cartman.getCartById(cid)
+    if (cart) {
+      if (await cartman.bulkAddToCart(cid, prods)) {
+        res.send({ status: "OK", description: "Product list successfully added to cart." })
+      } else {
+        res.status(500).send({ status: "Internal error", description: "Unable to add product list to cart" })
       }
     }
   } catch (err) {

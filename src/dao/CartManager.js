@@ -79,11 +79,10 @@ class CartManager {
     try {
       const cart = await cartModel.findOne({ _id: cartId }).lean()
       if (cart) {
-        await prodArray.forEach((element) => {
-          this.addProdToCart(element.id, cartId, element.quantity)
-        })
+        for (let i = 0; i < prodArray.length; i++) {
+          await this.addProdToCart(prodArray[i].id, cartId, prodArray[i].quantity)
+        }
         return true
-        //return await cartModel.updateOne({ _id: cartId }, { products: newProdList })
       } else {
         return false
       }

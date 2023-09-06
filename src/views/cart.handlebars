@@ -1,0 +1,25 @@
+<div class="container bg-secondary-subtle">
+  <h2 class="py-3 px-5 text-success-emphasis">Shopping Cart</h2>
+  {{#each products}}
+    <div class="card mb-3 text-success-emphasis bg-success-subtle" style="max-width: 600px;">
+      <div class="row g-0">
+        <div class="col-md-4 p-3">
+          <img src={{product.thumbnail}} class="img-fluid rounded m3" alt="..." />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4 class="card-title">{{product.title}}</h4>
+            <h5 class="card-title py-1">{{product.category}}</h5>
+            <p class="card-text">{{product.description}}</p>
+            <div class="d-flex justify-content-around">
+              <p class="card-text text-body-secondary">${{product.price}}</p>
+              <button type="button" class="btn btn-outline-success btn-sm" id="removeBtn">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>
+
+<script src="/js/cart.js"></script>

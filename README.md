@@ -12,9 +12,9 @@
   - los items de query params se pueden combinar **OK**
 - GET Devuelve formato requerido (status, payload, etc.) **OK**
 - Método DELETE api/carts/:cid/products/:pid **OK**
-- Método PUT api/carts/:cid --> *Pendiente*
+- Método PUT api/carts/:cid --> **OK**
 - Método PUT api/carts/:cid/products/:pid **OK**
 - Método DELETE api/carts/:cid elimina todos los productos **OK**
 - Uso de Populate **OK**
 - Vista /products --> *Sólo falta darle funcionalidad al botón de Add To Cart*
-- Vista /carts/:cid --> *Pendiente*
+- Vista /carts/:cid --> *Sólo falta darle funcionalidad al botón de Remove*
