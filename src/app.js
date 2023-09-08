@@ -10,6 +10,9 @@ import { Server } from "socket.io"
 import ProductManager from "./dao/ProductManager.js"
 import ChatManager from "./dao/ChatManager.js"
 import mongoose from "mongoose"
+import cookieParser from "cookie-parser"
+import session from "express-session"
+import MongoStore from "connect-mongo"
 
 const PORT = 8080
 const app = express()
@@ -38,7 +41,23 @@ app.use(express.static(__dirname + "/public"))
 
 app.use("/api/products/", productsRouter)
 app.use("/api/carts/", cartsRouter)
+//app.use("/api/sessions/", sessionsRouter);
 app.use("/", viewsRouter)
+
+app.use(cookieParser())
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl:
+        "mongodb+srv://coder_backend:xJvndIogNKToswVD@coderbackend.q5qvbhl.mongodb.net/ecommerce?retryWrites=true&w=majority",
+      mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+      ttl: 20,
+    }),
+    secret: "S4r4z4t0t4L",
+    resave: false,
+    saveUninitialized: false,
+  })
+)
 
 mongoose.connect(
   "mongodb+srv://coder_backend:xJvndIogNKToswVD@coderbackend.q5qvbhl.mongodb.net/ecommerce?retryWrites=true&w=majority"
